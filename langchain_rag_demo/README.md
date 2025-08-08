@@ -27,13 +27,14 @@ This pipeline:
 - Feeds them (with the query) to a Hugging Face LLM
 - Generates an answer
 
-- RetrievalQA = Retrieval Question Answering
-    - LangChain's RetrievalQA:
-        Accepts a user query
-        Uses the retriever (FAISS) to get top-k chunks
-        Stuffs those chunks into a prompt with the query
-        Feeds it to the LLM
-        Returns the answer
+--- 
+RetrievalQA = Retrieval Question Answering
+- LangChain's RetrievalQA:
+    - Accepts a user query
+    - Uses the retriever (FAISS) to get top-k chunks
+    - Stuffs those chunks into a prompt with the query
+    - Feeds it to the LLM
+    - Returns the answer
 
 
 ```
