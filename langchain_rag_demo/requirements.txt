@@ -1,7 +1,6 @@
 langchain
-openai
-faiss-cpu
-beautifulsoup4
-requests
-tiktoken
 langchain-community
+huggingface-hub
+transformers
+sentence-transformers
+accelerate
