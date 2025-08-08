@@ -10,6 +10,7 @@ llm_pipeline = pipeline(
 )
     
 # Node: Retrieve top-k relevant docs
+# Can add branching: e.g., "generate" → "summarize" if answer is too long
 def retrieve_node(state):
     retriever = state["retriever"]
     query = state["query"]
@@ -22,8 +23,9 @@ def generate_node(state):
     context = "\n\n".join([doc.page_content for doc in state["docs"]])
 
     prompt = f"""
-    Use the following context to answer the question.
-    If unsure, say you don’t know.
+    You are an expert AI assistant. 
+    Use the following context to answer the user's question as clearly and concisely as possible. 
+    If the answer isn't in the context, say you don't know.
 
     Context:
     {context}
