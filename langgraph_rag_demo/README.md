@@ -17,6 +17,13 @@ langgraph_rag_demo/
 ├── requirements.txt
 ```
 
+Tried models:
+```
+- meta-llama/Meta-Llama-3-8B-Instruct
+- mistralai/Mistral-7B-Instruct
+- HuggingFaceH4/zephyr-7b-beta
+- google/flan-t5-large
+```
 
 Use a state machine model:
 → user_input → retrieve_docs → generate_response → check_user_followup → (loop or exit)
@@ -39,3 +46,10 @@ Differences:
 - LangGraph is an extension of LangChain, built specifically to model stateful, graph-based
    LLM workflows.
 - LangGraph is a power mode inside LangChain. (not a replacement), but a move advanced layer
+
+Note: 
+Both in LangChain and LangGraph demos, the LLM calls (HuggingFaceHub) happen via the Hugging Face API or local Transformers. That’s inference in its simplest form: you feed the model a prompt, it runs a forward pass, and returns generated tokens.
+
+Data Ingestion & Embeddings (loader.py, embeddings.py)
+Semantic Retrieval + RAG (LangChain’s RetrievalQA)
+Stateful Graph Orchestration (LangGraph’s nodes + edges)

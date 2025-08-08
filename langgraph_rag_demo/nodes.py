@@ -3,9 +3,9 @@ from langchain.prompts import PromptTemplate
 from transformers import pipeline
 
 llm_pipeline = pipeline(
-    task="text2text-generation",  # For Zephyr, Flan, T5
+    task="text-generation",  # 'test-generation' for llama and 'text2text-generation' for other small models
     # model="google/flan-t5-large",  # or mistralai/Mistral-7B-Instruct, etc.
-    model="HuggingFaceH4/zephyr-7b-beta",
+    model="meta-llama/Meta-Llama-3-8B-Instruct",
     # device=0  # Or -1 for CPU
 )
     
