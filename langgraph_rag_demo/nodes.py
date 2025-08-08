@@ -1,4 +1,4 @@
-from langchain.chains import LLMChain
+# from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from transformers import pipeline
 
@@ -6,7 +6,7 @@ llm_pipeline = pipeline(
     task="text2text-generation",  # For Zephyr, Flan, T5
     # model="google/flan-t5-large",  # or mistralai/Mistral-7B-Instruct, etc.
     model="HuggingFaceH4/zephyr-7b-beta",
-    device=0  # Or -1 for CPU
+    # device=0  # Or -1 for CPU
 )
     
 # Node: Retrieve top-k relevant docs
