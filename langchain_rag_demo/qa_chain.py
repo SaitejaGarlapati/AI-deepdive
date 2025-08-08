@@ -8,7 +8,7 @@ def build_qa_chain(vectorstore):
     # Use local HF pipeline for stability
     hf_pipeline = pipeline(
         "text2text-generation",
-        model="HuggingFaceH4/zephyr-7b-beta",
+        model="google/flan-t5-base",
         device=0
     )
 
