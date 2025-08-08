@@ -10,7 +10,7 @@ load_dotenv()
 
 def main():
     urls = [
-    # "https://raw.githubusercontent.com/huggingface/transformers/main/README.md",
+    "https://raw.githubusercontent.com/huggingface/transformers/main/README.md",
     "https://raw.githubusercontent.com/langchain-ai/langchain/master/README.md",
 ]
 
