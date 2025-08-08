@@ -29,7 +29,7 @@ def main():
         if q.lower() == "exit":
             break
         print("Calling LLM...")
-        answer = run_graph.invoke(q)
+        answer = run_graph(q)
         print("Received response ✅")
         print("\n🧠 Answer:\n", answer)
 
