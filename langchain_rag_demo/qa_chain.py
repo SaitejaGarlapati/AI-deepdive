@@ -8,8 +8,8 @@ def build_qa_chain(vectorstore):
     # Use local HF pipeline for stability
     hf_pipeline = pipeline(
         "text2text-generation",
-        model="google/flan-t5-base",
-        device=0
+        model="google/flan-t5-base", # LLM Model
+        device=0 # local inferencing
     )
 
     llm = HuggingFacePipeline(pipeline=hf_pipeline)
@@ -17,7 +17,7 @@ def build_qa_chain(vectorstore):
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
-        retriever=retriever,
+        retriever=retriever, # here retriever is FAISS
         return_source_documents=True
     )
     return chain

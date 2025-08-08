@@ -6,10 +6,12 @@ from langchain.docstore.document import Document
 def build_vectorstore(texts):
     documents = [Document(page_content=t) for t in texts]
 
-    # Use Hugging Face embeddings model (free, no key needed)
     embeddings = HuggingFaceEmbeddings(
+        # This model will turn text into dense vector representations
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
+    # FAISS -> local, fast, memory-efficient vector similarity index
+    # lets us retrieve top-K relevant chunks
     vectorstore = FAISS.from_documents(documents, embeddings)
     return vectorstore
