@@ -1,14 +1,12 @@
 from dotenv import load_dotenv
-load_dotenv()
-
 from loader import load_docs_from_urls
 from embeddings import build_vectorstore
 from qa_chain import build_qa_chain
 
-# Load env vars (especially the Hugging Face token)
-load_dotenv()
-
 def main():
+    # Load env vars (especially the Hugging Face token)
+    load_dotenv()
+
     urls = [
     "https://raw.githubusercontent.com/huggingface/transformers/main/README.md",
     "https://raw.githubusercontent.com/langchain-ai/langchain/master/README.md",

@@ -1,0 +1,10 @@
+langgraph
+langchain
+langchain-community
+faiss-cpu
+sentence-transformers
+transformers
+accelerate
+beautifulsoup4
+requests
+python-dotenv

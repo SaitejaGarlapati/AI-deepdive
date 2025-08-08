@@ -9,7 +9,7 @@ def build_qa_chain(vectorstore):
     hf_pipeline = pipeline(
         "text2text-generation",
         model="google/flan-t5-base", # LLM Model
-        device=0 # local inferencing
+        # device=0 # local inferencing
     )
 
     llm = HuggingFacePipeline(pipeline=hf_pipeline)
