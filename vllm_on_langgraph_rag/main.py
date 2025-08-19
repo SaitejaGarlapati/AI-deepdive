@@ -5,7 +5,7 @@ from graph import build_graph
 import os
 
 load_dotenv()
-print("---- Token loaded ----")
+print("Token loaded:", os.getenv("HUGGINGFACEHUB_API_TOKEN"))
 
 def main():
 
