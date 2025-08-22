@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  vllm:
+    # Gaudi PyTorch image that already includes torch-hpu + habana_frameworks
+    image: vault.habana.ai/gaudi-docker/1.21.0/ubuntu22.04/habanalabs/pytorch-installer-2.6.0:latest
+    container_name: gaudi-vllm
+    runtime: habana
+    # host & IPC settings mirror the working manual run
+    # network_mode: "host"
+    ipc: "host"
+    cap_add:
+      - SYS_NICE
+    environment:
+      # expose all HPUs (or "0", "0,1" etc.)
+      HABANA_VISIBLE_DEVICES: "all"
+      HF_TOKEN: "${HF_TOKEN:-}"
+      PT_HPU_RECIPE_CACHE_CONFIG: '{"path":"/root/hpu_recipe_cache"}'
+      VLLM_LOGGING_LEVEL: "INFO"
+    volumes:
+      - ./volumes/hf_cache:/root/.cache/huggingface
+      - ./volumes/hpu_recipe_cache:/root/hpu_recipe_cache
+      - ./volumes/models:/models  # optional local model cache
+    working_dir: /root
+    # Start the OpenAI-compatible server. Tweak model & limits as needed.
+    command: >
+      bash -lc "
+        set -euo pipefail &&
+        git clone https://github.com/HabanaAI/vllm-fork.git &&
+        cd vllm-fork &&
+        git checkout v0.7.2+Gaudi-1.21.0 &&
+        pip install -r requirements-hpu.txt &&
+        python setup.py develop &&
+        python -m vllm.entrypoints.openai.api_server
+          --model ${VLLM_MODEL:-meta-llama/Meta-Llama-3-8B-Instruct}
+          --device hpu
+          --dtype bfloat16
+          --host 0.0.0.0
+          --port 8000
+          --max-model-len ${VLLM_MAX_LEN:-1024}
+          --max-num-seqs ${VLLM_MAX_SEQS:-4}
+      "
+    # Healthcheck waits until the API is live
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:8000/v1/models >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+    # If you prefer not to use host networking, comment network_mode and expose:
+    ports:
+      - "8000:8000"
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app.Dockerfile
+    container_name: langgraph-app
+    depends_on:
+      vllm:
+        condition: service_healthy
+    environment:
+      # point to the vLLM server
+      LLM_PROVIDER: "vllm"
+      VLLM_API_BASE: "http://127.0.0.1:8000/v1"  # due to host network
+      VLLM_API_KEY: "dummy"
+      VLLM_MODEL: "${VLLM_MODEL:-meta-llama/Meta-Llama-3-8B-Instruct}"
+      # optional: run a default question on startup
+      QUESTION: "Summarize LangGraph in 2 sentences."
+    network_mode: "host"   # so it can hit 127.0.0.1:8000
+    ipc: "host"
+    # comment the above two lines if you expose ports instead (see vllm service)
