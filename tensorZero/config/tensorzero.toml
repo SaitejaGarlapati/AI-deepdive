@@ -1,0 +1,25 @@
+# --- Models ---
+[models.llama3_8b]
+routing = ["vllm"]
+
+[models.llama3_8b.providers.vllm]
+type = "vllm"
+# Since vLLM runs on your HOST at :8000, expose it into the containers with host.docker.internal
+api_base = "http://host.docker.internal:8000/v1/"
+
+# IMPORTANT: match exactly whatever you launched vLLM with
+model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+
+api_key_location = "none"
+
+# A simple chat "function" with a single variant using the model above
+[functions.chat_basic]
+type = "chat"
+
+[functions.chat_basic.variants.v1]
+type = "chat_completion"
+model = "llama3_8b"
+
+# Optional gateway settings (disable telemetry if you want)
+[gateway]
+disable_pseudonymous_usage_analytics = true
