@@ -9,7 +9,7 @@ This folder shows how to integrate vLLM with TensorZero for routing, metrics, an
 - TensorZero UI: Web UI to explore metrics, traces, and feedback.
 
 ## Prerequisites
-- Ensure vLLM is running. Follow `vllm-setup-demo/README.md` to setup vLLM.
+- Ensure vLLM is running. Follow [vllm-setup-demo/README.md](https://github.com/SaitejaGarlapati/AI-deepdive/blob/main/vllm_on_langgraph_rag/README.md) to setup vLLM.
 
 ## Configure TensorZero
 ```
